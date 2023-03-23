@@ -90,7 +90,7 @@ const PropertySchema = mongoose.Schema({
     },
     facing : {
         type : String,
-        enum : ['North Facing', 'East Facing', 'West Facing', 'South Facing']
+        enum : ['North', 'East', 'West', 'South']
     },
     name : {
         type : String
@@ -107,6 +107,7 @@ const PropertySchema = mongoose.Schema({
         type : String,
         enum:["unsold", "sold"],
         required: true
+        
     },
     featuredPackage: {
         type : Number
