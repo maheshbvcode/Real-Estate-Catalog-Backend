@@ -6,9 +6,9 @@ const app = require('./app');
 
 
 mongoose.connect(process.env.MONGOURI,).then(()=>{
-    console.log("mongodb connected successfully ")
+    console.log("mongodb connected successfully ");
 }).catch(()=>{
-    console.log("Failed to connect to database")
+    console.log("Failed to connect to database");
 });
 
 

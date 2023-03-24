@@ -4,45 +4,44 @@ const PropertySchema = mongoose.Schema({
         type: String,
         required: true
     },
+    imageUrl: {
+        imageUrl: { type: String },
+        public_id: { type: String, required: true },
+    },
     propertyType: {
       type: String,
-      enum: ["Home", "Flat", "Plot"],
       required: true
-
     },
     views: {
-        type: Number,
-        required: true
+        type: Number
+    },
+    status : {
+        type : String,
+        default: "unsold"
     },
     days: {
-        type: Number,
-        required: true
+        type: Number
     },
     negotiable: {
-        type: String,
-        enum: ["Yes","No"]
+        type: String
     },
     price: {
         type:Number
     }, 
     ownership: {
-        type: String,
-        enum: ["Individual", "Joint"]
+        type: String
     },
     propertyAge: {
-          type: String,
-          enum: ["Below 10 years", "Above 10 years"]
+          type: String
     },
     propertyApproved: {
-         type: String,
-         enum: ["Yes","No"]
+         type: String
     },
     propertyDescription:{
         type: String
     },
     bankLoan: {
-        type: String,
-        enum: ["Yes", "No"]
+        type: String
     },
     length : {
         type: Number
@@ -55,42 +54,34 @@ const PropertySchema = mongoose.Schema({
         required: true
     },
     areaUnit : {
-        type : String,
-        enum : ['sq.mt', 'sq.ft']
+        type : String
     },
     noOfBhk : {
         type : Number
     },
     noOfFloor : {
-        type : Number,
-        enum : ['Ground', '1', '2', '3', 'penthouse', '4', 'more than 4']
+        type : Number
     },
     attached : {
-        type : String,
-        enum : ['Yes', 'No']
+        type : String
     },
     westernToilet : {
-        type : String,
-         enum : ['Yes', 'No']
+        type : String
     },
     furnished : {
-        type : String,
-        enum : ['Fully Furnished', 'Semi Furnished', 'None']
+        type : String
     },
     carParking : {
-        type : String,
-        enum : ['Yes', 'No']
+        type : String
     },
     lift : {
-        type : String,
-        enum : ['Yes', 'No']
+        type : String
     },
     electricity : {
         type : String
     },
     facing : {
-        type : String,
-        enum : ['North', 'East', 'West', 'South']
+        type : String
     },
     name : {
         type : String
@@ -100,14 +91,11 @@ const PropertySchema = mongoose.Schema({
         required: true
     },
     postedBy : {
-        type : String,
-        enum : ["Owner","Broker"]
+        type : String
     },
     saleType : {
         type : String,
-        enum:["unsold", "sold"],
-        required: true
-        
+        required: true 
     },
     featuredPackage: {
         type : Number
@@ -142,6 +130,13 @@ const PropertySchema = mongoose.Schema({
     },
     longitude: {
         type: String
+    },
+    userId: {
+        type: String
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "users"
     }
 
 })
