@@ -13,14 +13,16 @@ const PropertySchema = mongoose.Schema({
       required: true
     },
     views: {
-        type: Number
+        type: Number,
+        required: true
     },
     status : {
         type : String,
         default: "unsold"
     },
-    days: {
-        type: Number
+    daysLeft: {
+        type: Number,
+        required: true
     },
     negotiable: {
         type: String
@@ -44,10 +46,10 @@ const PropertySchema = mongoose.Schema({
         type: String
     },
     length : {
-        type: Number
+        type: Number, required: true
     },
     breadth : {
-        type : Number
+        type : Number, required: true
     },
     totalArea :{
         type : Number,
@@ -93,19 +95,11 @@ const PropertySchema = mongoose.Schema({
     postedBy : {
         type : String
     },
-    saleType : {
-        type : String,
-        required: true 
-    },
     featuredPackage: {
         type : Number
     },
     ppdPackage:{
         type : Number
-    },
-    photo: {
-        type: String,
-        required: true
     },
     email: {
         type: String
