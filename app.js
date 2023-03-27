@@ -8,6 +8,7 @@ const app = express();
 app.use(bodyparse.json());
 app.use(require('./routes/auth'));
 app.use(require('./routes/properties'))
+app.use(require('./routes/searchRoutes'));
 
 
 
