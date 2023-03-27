@@ -2,7 +2,7 @@ const router = require("express").Router();
 const user = require('../models/userSchema');
 const dotenv = require('dotenv');
 const { encrypt, decrypt } = require('../middleware/userAuth');
-const { generateToken, validateToken } = require("../middleware/token");
+const { generateToken } = require("../middleware/token");
 
 
 router.post("/user/signup", async (req, res) => {
@@ -53,6 +53,21 @@ router.post("/user/signup", async (req, res) => {
 
 router.post("/user/signin", async (req, res) => {
     try {
+        if (!req.body.email) {
+            res.status(400).json({
+              status: "failed",
+              message: "Email is required"
+            });
+            return;
+          }
+      
+          if (!req.body.password) {
+            res.status(400).json({
+              status: "failed",
+              message: "Password is required"
+            });
+            return;
+          }
         const userExists = await user.findOne({ email: req.body.email });
         // console.log(userExists);
         //console.log(userExists.password);
@@ -82,8 +97,9 @@ router.post("/user/signin", async (req, res) => {
         }
     }
     catch (err) {
-        res.status(400).json({
-            message: "Incorrect email or password"
+        res.status(500).json({
+            status: "error",
+            message: "An error occurred"
         })
     }
 }
