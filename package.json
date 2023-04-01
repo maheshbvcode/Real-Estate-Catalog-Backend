@@ -4,7 +4,8 @@
   "description": "real-estate-backend",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "build": "npm i && npm build"
   },
   "repository": {
     "type": "git",
