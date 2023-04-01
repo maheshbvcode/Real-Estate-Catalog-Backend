@@ -1,67 +1,31 @@
 const router = require("express").Router();
-const properties = require("../models/propertySchema");
-const { validateToken } = require("../middleware/token");
+const Property = require("../models/propertySchema");
 
-
-//listing all properties 
-router.get("/properties/all", validateToken, async (req, res) => {
-    try {
-        const data = await properties.find();
-        //console.log(data.length);
-        if (!data) {
-            res.status(404).json({
-                message: "No properties found"
-            })
-        } else {
-            res.status(200).json({
-                data
-            })
-        }
-    }
-    catch (err) {
-        res.status(400).json({
-            message: err.message
-        })
-    }
-})
-
-//search property by id
-router.get("/properties/:id", validateToken, async (req, res) => {
-    try {
-        const prop_id = req.params.id;
-        const data = await properties.findOne({ ppdId: prop_id });
-        if (!data) {
-            res.status(400).json({
-                message: "property not found"
-            })
-        } else {
-            res.status(201).json({
-                message: "successful",
-                data
-            })
-        }
-    }
-    catch (err) {
-        res.status(400).json({
-            status: "failed",
-            message: err.message
-        })
-    }
-})
-
-//updating the property status using ppdId
-router.put("/properties/:id", validateToken, async (req, res) => {
+router.get("/:id/:userid",async(req,res)=>{
     try{
-        let data = await properties.updateOne(
-            { _id: req.params.id },
-            {
-                $set: req.body  // setting required objects wherever changes are needed
-            }
-        )
-        res.status(200).send(data);
+        // console.log(req.params);
+        const ppd_id = req.params.id.toUpperCase();
+        const searchProperty = await Property.findOne({ ppdId: ppd_id });
+        // console.log(ppd_id , searchProperty)
+        if(searchProperty == null || searchProperty.userid != req.params.userid){
+            res.status(404).json({
+                status:"failed",
+                message : "Id not found",
+            });
+        }else{
+            res.status(200).json({
+                status: "success",
+                details: searchProperty,
+            });
+        }
     }
     catch{
-        res.status(400).json({ message: "unable to update" })
+        res.status(400).json({
+            status: "Failed",
+            message : "Id not Found",
+            error: error
+        })
     }
-})
+});
+
 module.exports = router;
