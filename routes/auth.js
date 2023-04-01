@@ -1,19 +1,20 @@
 const router = require("express").Router();
-const user = require('../models/userSchema');
+const User= require('../models/userSchema');
 const dotenv = require('dotenv');
 const { encrypt, decrypt } = require('../middleware/userAuth');
-const { generateToken } = require("../middleware/token");
+const { generateToken,validateToken } = require("../middleware/token");
 
 
-router.post("/user/signup", async (req, res) => {
-    console.log(req.body);
+router.post("/signup", async (req, res) => {
+    
+    
     try {
-        const userExists = await user.findOne({ email: req.body.email });
+        const userExists = await User.findOne({ email: req.body.email });
         //console.log(userExists);
         if (userExists == null || !userExists) {
             const hashPassword = await encrypt(req.body.password);
             //console.log(hashPassword);
-            const value = await user.find().sort({ _id: -1 }).limit(1);
+            const value = await User.find().sort({ _id: -1 }).limit(1);
             //console.log(value);
             let user_id = "06PPD";
             //console.log(value.length);
@@ -28,22 +29,25 @@ router.post("/user/signup", async (req, res) => {
                     message: "Please enter email and password"
                 })
             } else {
-                const newUser = await user.create({
+                let str = req.body.email.split("@")[0];
+                let username = str.replace(/[^A-Z]+/gi, "") + user_id;
+                const newUser = await User.create({
                     email: req.body.email,
                     password: hashPassword,
-                    name: req.body.email,
+                    name: username,
                     userId: "06PPD" + user_id
                 })
-                console.log(newUser);
+                // console.log(newUser);
                 res.status(201).json({                     //successfully created new user
                     message: "User Successfully Created",
                     data: newUser
-                })
+                });
             }
         } else {
             res.status(409).json({                          //conflict
+                status: "Failed",
                 message: "User already exists !"
-            })
+            });
         }
     }
     catch (err) {
@@ -51,7 +55,7 @@ router.post("/user/signup", async (req, res) => {
     }
 });
 
-router.post("/user/signin", async (req, res) => {
+router.post("/signin", async (req, res) => {
     try {
         if (!req.body.email) {
             res.status(400).json({
@@ -68,13 +72,13 @@ router.post("/user/signin", async (req, res) => {
             });
             return;
           }
-        const userExists = await user.findOne({ email: req.body.email });
+        const userExists = await User.findOne({ email: req.body.email });
         // console.log(userExists);
         //console.log(userExists.password);
         if (userExists == null || !userExists) {
             res.status(400).json({
                 status: "failed",
-                message: "user not found"
+                message: "User not found!Please give correct email"
             })
         } else {
             let decryptPassword = await decrypt(req.body.password, userExists.password);
@@ -83,6 +87,7 @@ router.post("/user/signin", async (req, res) => {
                 const token = await generateToken(req.body.email, process.env.JWT_TOKEN);
                 //console.log(token);
                 res.status(200).json({
+                    status:"Success",
                     token: token,
                     name: userExists.name,
                     email: userExists.email,
@@ -91,14 +96,14 @@ router.post("/user/signin", async (req, res) => {
             }
             else {
                 res.status(400).json({
-                    message: "Incorrect email or password"
-                })
+                    message: "Check Your credentials",
+                });
             }
         }
     }
     catch (err) {
         res.status(500).json({
-            status: "error",
+            status: "Failed",
             message: "An error occurred"
         })
     }

@@ -1,14 +1,16 @@
 const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const generateToken = (email) => {
-    const token = jwt.sign({ email: email, }, process.env.JWT_TOKEN);
+    const token = jwt.sign({ email: email, }, process.env.JWT_TOKEN,{
+        expiresIn: "24h"
+    });
 
     return token
-}
+};
 const validateToken = (req, res, next) => {
     const token = req.headers.token;
     if (!token) {
-        return res.status(401).json({
+        return res.status(403).json({
             message: "please login first"
         })
     }

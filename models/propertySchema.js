@@ -2,75 +2,80 @@ const mongoose = require('mongoose');
 const PropertySchema = mongoose.Schema({
     ppdId: {
         type: String,
-        
+
     },
     imageUrl: {
-        type: String 
-        },
-    propertyType: {
-      type: String,
-      
+        type: String,
+    },
+    property: {
+        type: String,
+
     },
     views: {
         type: Number,
-        
+
     },
-    status : {
-        type : String,
-        default: "unsold",
-        
+    status: {
+        type: String,
+        default: "Unsold",
+
     },
     daysLeft: {
         type: Number,
-        
+
     },
-    length : {
-        type: Number, 
+    length: {
+        type: Number,
     },
-    breadth : {
-        type : Number, 
+    breadth: {
+        type: Number,
     },
-    totalArea :{
-        type : Number,
-        
+    area:{
+        type : Number
     },
-    contact : {
-        type : Number,
-        
+    mobile: {
+        type: Number,
+
     },
-    negotiable: {type: String},
-    price: {type:Number}, 
-    ownership: {type: String},
-    propertyAge: {type: String},
-    propertyApproved: {type: String},
-    propertyDescription:{type: String},
-    bankLoan: {type: String},
+    userid: { type: String },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "Users" },
+    email: { type: String ,required:true},
     
-   
+    negotiable: { type: String },
+    price: { type: Number },
+    ownership: { type: String },
+    propertyAge: { type: String },
+    propApproved: { type: String },
+    propDescription: { type: String },
+    bankLoan: { type: String },
+
+
+
+    areaUnit: { type: String },
+    bhk: { type: Number },
+    floorNum: { type: Number },
+    attached: { type: String },
+    westToilet: { type: String },
+    furnished: { type: String },
+    parking: { type: String },
+    lift: { type: String },
+    electricity: { type: String },
+    facing: { type: String },
+    name: { type: String },
+
+    postedBy: { type: String },
+    package: { type: String },
+    saleType: { type: String },
+    ppdPackage: { type: String },
     
-    areaUnit : {type : String},
-    noOfBhk : {type : Number},
-    noOfFloor : {type : Number},
-    attached : {type : String},
-    westernToilet : {type : String},
-    furnished : {type : String},
-    carParking : {type : String},
-    lift : {type : String},
-    electricity : {type : String},
-    facing : {type : String},
-    name : {type : String},
-    
-    postedBy : {type : String},
-    featuredPackage: {type : Number},
-    ppdPackage:{type : Number},
-    email: {type: String},
-    city: {type: String},
-    pincode: {type: Number},
-    address: {type: String},
-    landmark: {type: String},
-    latitude: {type: String},
-    longitude: {type: String},
-    
+    city: { type: String },
+    addArea:{ type: String },
+    pincode: { type: Number },
+    address: { type: String },
+    landmark: { type: String },
+    latitude: { type: String },
+    longitude: { type: String },
+
 
 })
 const Property = mongoose.model("property", PropertySchema);
